@@ -1,1 +1,1 @@
-# otp-elixir-course
+# otp-elixir-course from Pragmatic Studio
