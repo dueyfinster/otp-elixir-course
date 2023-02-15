@@ -12,14 +12,12 @@ defmodule Servy.Handler do
 
   def parse(request) do
     # TODO: Parse the request string into a map:
-    first_line = request |> String.split("\n") |> List.first
-    # Imperative style:
-    # parts = String.split(first_line, " ")
-    # method = Enum.at(parts, 0)
-    # path = Enum.at(parts, 1)
+    [method, path, _] =
+      request
+      |> String.split("\n")
+      |> List.first
+      |> String.split(" ")
 
-    # Pattern matching functional style:
-    [method, path, _] = String.split(first_line, " ")
     conv = %{ method: method, path: path, resp_body: "" }
   end
 
