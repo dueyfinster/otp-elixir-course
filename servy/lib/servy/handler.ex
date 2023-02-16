@@ -28,6 +28,7 @@ defmodule Servy.Handler do
 
   def format_response(conv) do
     # TODO: Use values in the map to create a HTTP response string:
+    # For proper UTF-8 string length: Content-Length: #{byte_size(conv.resp_body)}
     """
     HTTP/1.1 200 OK
     Content-Type: text/html
