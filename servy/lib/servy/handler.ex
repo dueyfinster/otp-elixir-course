@@ -31,7 +31,7 @@ defmodule Servy.Handler do
     """
     HTTP/1.1 200 OK
     Content-Type: text/html
-    Content-Length: 20
+    Content-Length: #{String.length(conv.resp_body)}
 
     Bears, Lions, Tigers
     """
