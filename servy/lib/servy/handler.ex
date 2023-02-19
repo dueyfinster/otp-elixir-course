@@ -1,3 +1,5 @@
+require Logger
+
 defmodule Servy.Handler do
   def handle(request) do
     # conv = parse(request)
@@ -10,11 +12,12 @@ defmodule Servy.Handler do
     |> log
     |> route
     |> track
+    |> emojify
     |> format_response
   end
 
   def track(%{status: 404, path: path} = conv) do
-    IO.puts "Warning #{path} is on the loose!"
+    Logger.warn "Warning #{path} is on the loose!"
     conv
   end
 
@@ -74,13 +77,19 @@ defmodule Servy.Handler do
   #   route(conv, conv[:method], conv[:path])
   # end
 
+  def emojify(%{ resp_body: resp_body, status: 200 } = conv) do
+    %{ conv | resp_body: "😘#{resp_body}😘" }
+  end
+
+  def emojify(conv), do: conv
+
   def format_response(conv) do
     # TODO: Use values in the map to create a HTTP response string:
     # For proper UTF-8 string length: Content-Length: #{byte_size(conv.resp_body)}
     """
     HTTP/1.1 #{conv.status} #{status_reason(conv.status)}
     Content-Type: text/html
-    Content-Length: #{String.length(conv.resp_body)}
+    Content-Length: #{byte_size(conv.resp_body)}
 
     #{conv.resp_body}
     """
